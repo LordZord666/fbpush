@@ -7,9 +7,9 @@ graph = facebook.GraphAPI(page_access_token)
 facebook_page_id = "113544291367455"
 #graph.put_object(facebook_page_id, "feed", message='test message')
 
-data= getData()
+datas = getData()
 
 
-for data in myresult:
+for data in datas:
   graph.put_object(facebook_page_id, "feed", message=data)
   #yha message ko satta data anusar tanera hal

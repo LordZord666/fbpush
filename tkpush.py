@@ -11,3 +11,4 @@ data= getData()
 for data in myresult:
   print(x)
   #graph.put_object(facebook_page_id, "feed", message='test message')
+  #yha message ko satta data anusar tanera hal

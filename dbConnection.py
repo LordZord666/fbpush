@@ -11,7 +11,7 @@ mydb = mysql.connector.connect(
 def getData():
   mycursor = mydb.cursor()
 
-  mycursor.execute("SELECT * FROM tables WHERE Availability IS 1")
+  mycursor.execute("SELECT * FROM tables WHERE Availability = '1' ")
 
   myresult = mycursor.fetchall()
   return myresult

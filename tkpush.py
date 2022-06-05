@@ -14,8 +14,8 @@ def job():
   datas = getData()
   message = ''
   for data in datas:
-    message += str(data)  
-  graph.put_object(facebook_page_id, "feed", message=data)
+    message += str(data[0])+" "+str(data[1])+" "+str(data[2])+" "+str(data[3])+'\n'  
+  graph.put_object(facebook_page_id, "feed", message=message)
   print("Posting completed")
 
 schedule.every(5).seconds.do(job)

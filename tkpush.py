@@ -10,13 +10,15 @@ graph = facebook.GraphAPI(page_access_token)
 facebook_page_id = "113544291367455"
 
 def job():
+  print("Posting started")
   datas = getData()
   message = ''
   for data in datas:
     message += str(data)  
   graph.put_object(facebook_page_id, "feed", message=data)
+  print("Posting completed")
 
-schedule.every(10).minutes.do(job)
+schedule.every(5).seconds.do(job)
 while True:
   schedule.run_pending()
   time.sleep(1)

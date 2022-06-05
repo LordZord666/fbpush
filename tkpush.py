@@ -1,15 +1,20 @@
 import facebook
 import time
 from dbConnection import getData
+import schedule
 
 page_access_token = "EAAF219B1ahEBAEYJB0h82ZAcEbrJAkXrLrZCSNu6KYUgP4I7H6NZAe6YZAvoa4EtJm6zKfUqzPSz05ZCnZBwKd9rP0MnDQwNF37fhjOsw95r2BoIw3agQZA3MotAueTEYmMLhNlFXb74lYSryqWrgoAzPoZAqi0N218LKVpbpwl71A34gG5OcCgAsAGibImGo0ZACLRiJDAoMagZDZD"
 graph = facebook.GraphAPI(page_access_token)
 facebook_page_id = "113544291367455"
 #graph.put_object(facebook_page_id, "feed", message='test message')
 
-datas = getData()
 
-
+datas = schedule.every(3600).seconds.do(getData)
+  
 for data in datas:
-  graph.put_object(facebook_page_id, "feed", message=data)
+    graph.put_object(facebook_page_id, "feed", message=data)
   #yha message ko satta data anusar tanera hal
+
+while True:
+  schedule.run_pending()
+  time.sleep(1)

@@ -1,5 +1,4 @@
-port mysql.connector
-import schedule
+import mysql.connector
 import time
 import requests
 
@@ -16,9 +15,4 @@ def getData():
   mycursor = mydb.cursor()
   mycursor.execute("SELECT * FROM table_product")
   myresult = mycursor.fetchall()
-  print (myresult)
-  schedule.every(4).seconds.do(getData)
-  while True:
-    schedule.run_pending()
-    time.sleep(1)
   return myresult

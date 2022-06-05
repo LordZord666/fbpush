@@ -11,13 +11,12 @@ graph = facebook.GraphAPI(page_access_token)
 facebook_page_id = "113544291367455"
 #graph.put_object(facebook_page_id, "feed", message='test message')
 
-
-datas = schedule.every(3600).seconds.do(getData)
-  
-for data in datas:
+def getDataandPush():
+  datas = getData()
+  for data in datas:
     graph.put_object(facebook_page_id, "feed", message=data)
-  #yha message ko satta data anusar tanera hal
 
+schedule.every(120).seconds.do(getDataandPush)
 while True:
   schedule.run_pending()
   time.sleep(1)

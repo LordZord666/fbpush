@@ -8,11 +8,11 @@ mydb = mysql.connector.connect(
   host="localhost",
   user="root",
   password="",
-  database="task"
+  database="test"
 )
 
 def getData():
   mycursor = mydb.cursor()
-  mycursor.execute("SELECT * FROM table_product")
+  mycursor.execute("SELECT * FROM Tab")
   myresult = mycursor.fetchall()
   return myresult

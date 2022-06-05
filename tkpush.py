@@ -9,12 +9,14 @@ page_access_token = "EAAF219B1ahEBAEPKtkgJVpnOBNVajj63uoi7kazXZBNBVHfuYVrd6J2CPp
 graph = facebook.GraphAPI(page_access_token)
 facebook_page_id = "113544291367455"
 
-def getDataandPush():
+def job():
   datas = getData()
+  message = ''
   for data in datas:
-    graph.put_object(facebook_page_id, "feed", message=data)
+    message += str(data)  
+  graph.put_object(facebook_page_id, "feed", message=data)
 
-schedule.every(120).seconds.do(getDataandPush)
+schedule.every(10).minutes.do(job)
 while True:
   schedule.run_pending()
   time.sleep(1)

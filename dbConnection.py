@@ -1,7 +1,9 @@
-import mysql.connector
-import requests
+port mysql.connector
 import schedule
 import time
+import requests
+
+#connection = pyodbc.connect(driver='{ODBC driver 17 for SQL Server}', host="")
 
 mydb = mysql.connector.connect(
   host="localhost",
@@ -10,16 +12,13 @@ mydb = mysql.connector.connect(
   database="task"
 )
 
-
 def getData():
   mycursor = mydb.cursor()
-
-  mycursor.execute("SELECT * FROM table_product WHERE Availability ='1' ")
-
+  mycursor.execute("SELECT * FROM table_product")
   myresult = mycursor.fetchall()
+  print (myresult)
+  schedule.every(4).seconds.do(getData)
+  while True:
+    schedule.run_pending()
+    time.sleep(1)
   return myresult
-
-schedule.every().day.at("16:41").do(getData)
-while True:
-  schedule.run_pending()
-  time.sleep(1)

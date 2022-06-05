@@ -1,4 +1,4 @@
-port mysql.connector
+import mysql.connector
 import schedule
 import time
 import requests

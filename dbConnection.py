@@ -27,9 +27,7 @@ def getData():
   
   insertQuery = """ INSERT into table_product (id, title, description, price, image, Availabitity) value(%s,%s,%s,%s,%s,%s)"""
   img=cv2.imread('pic.jpg')
-  gray_img=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-  print(gray_img)
-  value = ('3,ball,basketball,500,convertPic,1')
+  value = ('3','ball',"Basketball ko geda",500,img,1)
   Cursor.execute(insertQuery,value)
   connection.commit
   

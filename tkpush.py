@@ -1,6 +1,4 @@
 import facebook
-import config
-import requests
 from dbConnection import getData
 import schedule
 import time
@@ -22,12 +20,3 @@ schedule.every(5).seconds.do(job)
 while True:
   schedule.run_pending()
   time.sleep(1)
-  
-#image_url = 'https://graph.facebook.com/{page-id}/photos'.format(facebook_page_id)
-#image_location = '/Users/User/Desktop/pic.jpg'
-#image_playload = {
-# 'url': image_location,
-# 'access_token': config.page_access_token
-#}
-#r = requests.post(image_url, data=image_playload)
-#print(r.text)

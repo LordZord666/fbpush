@@ -1,69 +1,40 @@
-from mysql.connector import MySQLConnection, Error
-from python_mysql_dbconfig import read_db_config
+import mysql.connector
+from mysqlx import SqlStatement
 
+mydb = mysql.connector.connect(
+    host = "localhost",
+    user = "root",
+    password = "",
+    database ="task"
+)
 
-def read_file(filename):
-    with open(filename, 'rb') as f:
-        photo = f.read()
-    return photo
+mycursor = mydb.cursor()
 
-def update_blob(author_id, filename):
-    # read file
-    data = read_file(filename)
+mycursor.execute("CREATE TABLE IF NOT EXISTS Images(id INTEGER(45) NOT NULL AUTO_INCREMENT PRIMARY KEY, Photo LONGBLOB NOT NULL)")
 
-    # prepare update query and data
-    query = "UPDATE authors " \
-            "SET photo = %s " \
-            "WHERE id  = %s"
+def InsertBlob(FilePath):
+    with open(FilePath,"rb") as File:
+        BinaryData = File.read()
+    SqlStatement = "INSERT INTO Images (Photo) VALUES (%)"
+    mycursor.execute(SqlStatement, (BinaryData , ))
+    mydb.commit()
 
-    args = (data, author_id)
+def RetrieveBlob (ID):
+    SqlStatement2 ="SELECT * FROM Images WHERE id='{0}'"
+    mycursor.execute(SqlStatement2.format(str(ID)))
+    myresult = mycursor.fetchall()[1]
+    StoreFilePath = "imageoutput/img{0}.jpg".format(str(ID))
+    print (myresult)
+    with open(StoreFilePath,'wb') as File:
+        File.write(myresult)
+        File.close()
 
-    db_config = read_db_config()
+print("1. Insert image\n 2. Read image")
+menuInput = input()
 
-    try:
-        conn = MySQLConnection(**db_config)
-        cursor = conn.cursor()
-        cursor.execute(query, args)
-        conn.commit()
-    except Error as e:
-        print(e)
-    finally:
-        cursor.close()
-        conn.close()
-def main():
-    update_blob(144, "pictures\pic.jpg")
-
-if __name__ == '__main__':
-    main()
-
-def write_file(data, filename):
-    with open(filename, 'wb') as f:
-        f.write(data)
-def read_blob(author_id, filename):
-    # select photo column of a specific author
-    query = "SELECT photo FROM authors WHERE id = %s"
-
-    # read database configuration
-    db_config = read_db_config()
-
-    try:
-        # query blob data form the authors table
-        conn = MySQLConnection(**db_config)
-        cursor = conn.cursor()
-        cursor.execute(query, (author_id,))
-        photo = cursor.fetchone()[0]
-
-        # write blob data into a file
-        write_file(photo, filename)
-
-    except Error as e:
-        print(e)
-
-    finally:
-        cursor.close()
-        conn.close()
-def main():
-    read_blob(144,"output\garth_stein.jpg")
-
-if __name__ == '__main__':
-    main()
+if int(menuInput) == 1:
+    UserFilePath = input("Enter file path")
+    InsertBlob(UserFilePath)
+elif int(menuInput) == 2:
+    UserIDChoice = input("Enter ID:")
+    RetrieveBlob(UserIDChoice)
